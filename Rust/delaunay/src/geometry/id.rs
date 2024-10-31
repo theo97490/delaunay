@@ -1,4 +1,4 @@
-use std::{ops::{Index, IndexMut}, slice::SliceIndex};
+use std::ops::{Index, IndexMut};
 
 #[derive(Debug, Default, Clone, Copy)]
 pub struct LocalId<const N: usize> {

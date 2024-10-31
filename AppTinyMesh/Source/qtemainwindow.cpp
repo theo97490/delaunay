@@ -171,7 +171,8 @@ void MainWindow::loadNaiveToDelaunay() {
 
 void MainWindow::loadTriangulation() {
   const auto path = uiw->tri_path->text().toStdString();
-  const auto mesh = LibDelaunay::compute_triangulation_2d(path, 0.001);
+  const auto elevate = uiw->tri_elevate->isChecked();
+  const auto mesh = LibDelaunay::compute_triangulation_2d(path, 0.001, elevate);
   meshColor = convertToQtMesh(mesh);
   UpdateGeometry();
 

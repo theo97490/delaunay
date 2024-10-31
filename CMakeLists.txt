@@ -41,13 +41,20 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(APP AppTinyMesh)
 set(SRC_DIR AppTinyMesh/Source)
 set(INC_DIR AppTinyMesh/Include )
+
+set(LIBDELAUNAY_SRC Rust/delaunay/target/cxxbridge/delaunay/src)
+set(LIBDELAUNAY_DEBUG "${PROJECT_SOURCE_DIR}/Rust/delaunay/target/debug/libdelaunay.a")
+set(LIBDELAUNAY_RELEASE "${PROJECT_SOURCE_DIR}/Rust/delaunay/target/release/libdelaunay.a")
+set(LIBDELAUNAY ${LIBDELAUNAY_RELEASE})
+
 include_directories(${INC_DIR})
-include_directories(Rust/delaunay/target/cxxbridge/delaunay/src)
+include_directories(${LIBDELAUNAY_SRC})
 aux_source_directory(${SRC_DIR} SRC_FILES)
 aux_source_directory(AppTinyMesh/Source/tp_geom SRC_FILES)
-aux_source_directory(Rust/delaunay/target/cxxbridge/delaunay/src SRC_FILES)
+aux_source_directory(${LIBDELAUNAY_SRC} SRC_FILES)
 add_executable(${APP} WIN32 
     ${SRC_FILES}
+    ${LIBDELAUNAY}
     ${INC_DIR/tp_geom/delaunay.h}
     ${INC_DIR/tp_geom/mesh.h}
     ${INC_DIR/tp_geom/triangulation.h}
@@ -75,7 +82,7 @@ if (WIN32)
         ${GLEW_LIBRARIES}
         glu32.lib
         opengl32
-        # DELAUNAY
+        ${LIBDELAUNAY}
         Qt6::Core
         Qt6::Widgets
         Qt6::Gui
@@ -88,7 +95,7 @@ else()
     target_link_libraries(${APP}
         ${GLEW_LIBRARIES}
         GLU
-        "${PROJECT_SOURCE_DIR}/Rust/delaunay/target/debug/libdelaunay.a"
+        "${PROJECT_SOURCE_DIR}/Rust/delaunay/target/release/libdelaunay.a"
         glut
         Qt6::Core
         Qt6::Widgets

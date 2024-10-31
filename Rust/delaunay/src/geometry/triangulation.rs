@@ -18,13 +18,17 @@ pub struct Triangulation2D {
     pub mesh: TriangleMesh
 }
 
+pub trait Triangulation {
+    fn add_point(&mut self, point: Vec3) -> usize;
+}
+
 impl<'a> SimpleTriangulation<'a> {
     pub fn new(m: &'a TriangleMesh) -> Self { Self { mesh: m, edge_to_tri: HashMap::new() } }
     // TODO: Recoder le tp1 plus tard
 }
 
-impl Triangulation2D {
-    pub fn add_point(&mut self, point: Vec3) -> usize {
+impl Triangulation for Triangulation2D {
+    fn add_point(&mut self, point: Vec3) -> usize {
         if self.mesh.vertices.len() < 4 {
             let point_id = self.mesh.add_point(point);
             if point_id >= 3 {
@@ -42,7 +46,9 @@ impl Triangulation2D {
             TriOrient::CCW => self.mesh.split_face(tri_id, point).0
         }
     }
+}
 
+impl Triangulation2D {
     fn add_point_outside_hull(&mut self, tri_id: usize, edge_id: TriIt, point: Vec3) -> usize {
         let tri = &self.mesh.triangles[tri_id];
         let hull_tri_id = tri.adjacent[edge_id];
