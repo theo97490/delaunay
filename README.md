@@ -1,3 +1,7 @@
+Based on TinyMesh viewer.
+Additionnal instructions for compiling this project:
+* run once cargo install && cargo build --release inside the rust/delaunay folder
+
 ## Windows
 - First, you must install Qt6 (https://www.qt.io/download, use the open source version). Install the msvc2019_64 compiler only (*Note: other compilers can work too*).
 - Set the "QTDIR64" environment variable to your Qt installation folder (example: "E:\Code\Qt\6.3.0\msvc2019_64")
